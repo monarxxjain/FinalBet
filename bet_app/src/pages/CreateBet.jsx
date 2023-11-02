@@ -17,15 +17,36 @@ const CreateBet = () => {
   const [receiverFinalResp, setReceiverFinalResp] = useState("NIL");
   const senderNumber = localStorage.getItem("phone");
   const [error, setError] = useState(false);
+  const [dateErr, setDateErr] = useState(false);
   const [username, setUsername] = useState("");
-  const [dialcodeNum,setdialcodeNum]=useState("")
   const navigate = useNavigate();
 
+
+  function isDate20MinutesGreater(inputDate) {
+    // Parse the input date in ISO format
+    const givenDate = new Date(inputDate);
+
+    // Get the current date and time
+    const currentDate = new Date();
+
+    // Calculate the time difference in milliseconds
+    const timeDifference = givenDate - currentDate;
+    // console.log(timeDifference)
+
+    // Convert 20 minutes to milliseconds (1 minute = 60,000 milliseconds)
+    const twentyMinutesInMilliseconds = 15 * 60000;
+    // console.log(twentyMinutesInMilliseconds);
+    // Compare the time difference with 20 minutes
+    if (timeDifference > twentyMinutesInMilliseconds) {
+      return true;
+    }
+    return false;
+  }
   // Function to fetch user data
   const getUser = async () => {
     try {
       let user = await axios.get(
-        `http://localhost:5100/user/${localStorage.getItem("user")}`
+        `http://localhost:5200/user/${localStorage.getItem("user")}`
       );
       user = user.data;
       setUsername(user.name);
@@ -37,10 +58,10 @@ const CreateBet = () => {
   }
   const sendResp = async () => {
     try {
-     
-      const response = await axios.post(`http://localhost:5100/api/sendmessage`,
+
+      const response = await axios.post(`http://localhost:5200/api/sendmessage`,
         {
-          number: dialcodeNum,
+          number: receiverNumber,
           receName: receiverName,
           sendName: senderName,
         }
@@ -52,14 +73,13 @@ const CreateBet = () => {
     }
   };
 
-  const handlenumberChange=(value,data)=>{
-    setdialcodeNum(`+${value}`);
-    setReceiverNumber(value.slice(data.dialCode.length));
+  const handlenumberChange = (value, data) => {
+    setReceiverNumber(value);
   }
 
   // Function to initiate a bet
   const initiateBet = async () => {
-   
+
     let receiverResponse = 'Yes'
     if (senderResponse == 'Yes') {
       receiverResponse = 'No'
@@ -86,6 +106,11 @@ const CreateBet = () => {
       return;
     }
 
+    if (!isDate20MinutesGreater(resolDate)) {
+      console.log("false")
+      setDateErr(true);
+      return
+    }
     const betData = {
       senderName,
       senderResponse,
@@ -103,10 +128,10 @@ const CreateBet = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:5100/api/createbet",
+        "http://localhost:5200/api/createbet",
         betData
       );
-      if(response.data.error){
+      if (response.data.error) {
         alert("Receiver is not registerd");
         return false;
       }
@@ -246,12 +271,10 @@ const CreateBet = () => {
           <PhoneInput
             country={"us"}
             id="receiverNumber"
-            // placeholder="Enter Counterparty Number"
-            // className="border border-gray-300 rounded-md p-2 w-full"
             inputProps={{
               required: true,
             }}
-            value={dialcodeNum}
+            value={receiverNumber}
             onChange={handlenumberChange}
           />
           {error && (!receiverNumber || isNaN(receiverNumber)) && (
@@ -299,6 +322,9 @@ const CreateBet = () => {
 
           {error && !resolDate && (
             <span className="text-red-500 text-left">Enter a valid date</span>
+          )}
+          {dateErr && (
+            <span className="text-red-500 text-left">Enter a date 20 mins greater than current date and less than 7 days</span>
           )}
         </div>
 

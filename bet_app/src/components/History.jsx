@@ -11,7 +11,7 @@ const History = () => {
   const GetHistory = async () => {
     try {
       let list = await axios.get(
-        `http://localhost:5100/api/getbet/${num}/close`
+        `http://localhost:5200/api/getbet/${num}/close`
       );
       setBetList(list.data);
     } catch (error) {

@@ -3,7 +3,7 @@ const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
 const cors = require("cors");
-const UserRouter =require("./routes/userRoutes")
+const UserRouter = require("./routes/userRoutes")
 require("dotenv").config();
 const router = require('./routes/betRoutes');
 
@@ -26,7 +26,7 @@ mongoose
         autoIndex: true
     })
     .then(() => {
-        app.listen(5100)
+        app.listen(5200)
         console.log("connected");
     })
     .catch((err) => {

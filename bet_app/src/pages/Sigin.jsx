@@ -1,23 +1,24 @@
 import React, { useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-
+import PhoneInput from "react-phone-input-2";
+import "react-phone-input-2/lib/style.css";
 const SiginUp = () => {
   const [NameErr, setNameErr] = useState(false);
   const [phoneEmp, setphoneEmp] = useState(false);
   const [phoneErr, setphoneErr] = useState(false);
   const [PassEmp, setPassEmp] = useState(false);
   const [PassErr, setPassErr] = useState(false);
+  const [phone, setPhone] = useState("");
   const name = useRef();
-  const phone = useRef();
   const pass = useRef();
   const navigate = useNavigate();
 
   // Function to validate a phone number format
-  const validatephone = (phone) => {
-    return String(phone)
-      .toLowerCase()
-      .match(/^(?:\+\d{1,3})?\d{10}$/);
+
+  const handlenumberChange = (value, data) => {
+
+    setPhone(value);
   };
 
   // Function to navigate to the login page
@@ -28,7 +29,7 @@ const SiginUp = () => {
   // Function to handle user registration
   const handleRegister = async (e) => {
     const Name = name.current.value;
-    const Phone = phone.current.value;
+    const Phone = phone
     const Pass = pass.current.value;
     let a = 0,
       b = 0,
@@ -43,14 +44,10 @@ const SiginUp = () => {
 
     if (!Phone) {
       setphoneEmp(true);
-    } else {
-      setphoneEmp(false);
-      if (validatephone(Phone)) {
-        b = 1;
-        setphoneErr(false);
-      } else {
-        setphoneErr(true);
-      }
+
+    }
+    else {
+      b = 1;
     }
 
     if (!Pass) {
@@ -67,7 +64,7 @@ const SiginUp = () => {
 
     if (a + b + c === 3) {
       try {
-        const data = await axios.post("http://localhost:5100/register", {
+        const data = await axios.post("http://localhost:5200/register", {
           name: Name,
           phone: Phone,
           password: Pass,
@@ -114,10 +111,14 @@ const SiginUp = () => {
           <span className="text-slate-900 font-medium my-2 text-xl mb-3">
             Phone
           </span>
-          <input
-            type="tel"
-            className="border border-gray-300 sm:w-72 w-64 h-10 rounded-lg outline-none px-2 py-2 font-medium "
-            ref={phone}
+          <PhoneInput
+            country={"us"}
+            id="receiverNumber"
+            inputProps={{
+              required: true,
+            }}
+            value={phone}
+            onChange={handlenumberChange}
           />
           {phoneEmp && (
             <small className="text-red-600 text-[1rem] ">

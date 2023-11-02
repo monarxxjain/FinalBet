@@ -12,7 +12,7 @@ const Home = () => {
   const getUser = async () => {
     try {
       const user = await axios.get(
-        `http://localhost:5100/user/${localStorage.getItem("user")}`
+        `http://localhost:5200/user/${localStorage.getItem("user")}`
       );
       setUsername(user.data.name);
     } catch (error) {
