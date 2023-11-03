@@ -120,4 +120,16 @@ const setFinalResp = async (req, resp) => {
   }
 };
 
-module.exports = { createBet, updateStatus, getBet, setFinalResp, deleteBet, getRequestBet, changetofinal };
+const SetWagerResp=async(req,resp)=>{
+  let result = await Bet.findOne({ _id: req.params.id });
+  if(req.params.check=="1"){
+    result.senderWager="Yes"
+  }
+  else{
+    result.receiverWager = "Yes"
+  }
+  result.save();
+  resp.send(result);
+}
+
+module.exports = { createBet, updateStatus, getBet, setFinalResp, deleteBet, getRequestBet, changetofinal,SetWagerResp};

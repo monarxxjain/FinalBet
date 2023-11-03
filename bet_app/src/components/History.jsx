@@ -6,7 +6,6 @@ const History = () => {
   const [BetList, setBetList] = useState([]);
   const num = localStorage.getItem("phone");
 
-
   // Function to fetch bet history
   const GetHistory = async () => {
     try {
@@ -17,6 +16,25 @@ const History = () => {
     } catch (error) {
       console.error("An error occurred while fetching bet history:", error);
     }
+  };
+  const WagerStatus = async (isSender, betId, senderWager, receiverWager) => {
+    if (isSender) {
+      let result = await axios.patch(
+        `http://localhost:5200/api/setwagerResp/${betId}/1`
+      );
+      if (result) {
+        GetHistory();
+      }
+    } else {
+      let result = await axios.patch(
+        `http://localhost:5200/api/setwagerResp/${betId}/0`
+      );
+      if (result) {
+        GetHistory();
+      }
+    }
+
+    alert("response noted")
   };
 
   useEffect(() => {
@@ -46,6 +64,8 @@ const History = () => {
           receiverNumber,
           senderFinalResp,
           receiverFinalResp,
+          senderWager,
+          receiverWager,
         } = bet;
 
         if (
@@ -68,6 +88,9 @@ const History = () => {
               Result={"win"}
               FinalsenderResp={senderFinalResp}
               FinalreceiverResp={receiverFinalResp}
+              SendWag={senderWager}
+              RecevieWag={receiverWager}
+              WagerStatus={WagerStatus}
             />
           );
         }
@@ -92,6 +115,9 @@ const History = () => {
               Result={"lose"}
               FinalsenderResp={senderFinalResp}
               FinalreceiverResp={receiverFinalResp}
+              SendWag={senderWager}
+              RecevieWag={receiverWager}
+              WagerStatus={WagerStatus}
             />
           );
         }

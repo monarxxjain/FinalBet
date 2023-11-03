@@ -48,6 +48,12 @@ const betSchema = new mongoose.Schema({
   receiverFinalResp:{
     type: String,
     required: true,
+  },
+  senderWager:{
+    type:String
+  },
+  receiverWager:{
+    type:String
   }
 });
 

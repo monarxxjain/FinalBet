@@ -16,7 +16,7 @@ const Nav = ({ username }) => {
       <div className="flex w-full justify-between md:px-6 items-center">
         <span className="flex sm:flex-row flex-col items-start">
           <button
-            className=" font-bold md:mr-6 mr-2 text-xl"
+            className=" font-bold md:mr-6 mr-2 sm:text-xl"
             onClick={() => {
               navigate("/home");
             }}
@@ -30,7 +30,7 @@ const Nav = ({ username }) => {
 
         <span>
           <button
-            className="bg-purple-800 text-white md:text-xl text-sm md:px-2 px-1 py-1 font-bold rounded-md md:mx-10 mx-2"
+            className="bg-purple-800 text-white md:text-xl text-sm px-1 md:px-2 py-1 font-bold rounded-md md:mx-10 mx-2"
             onClick={() => {
               CreateBet();
             }}
@@ -38,7 +38,7 @@ const Nav = ({ username }) => {
             Create Bet
           </button>
           <button
-            className="bg-red-600 text-white md:text-lg text-sm px-2 py-1 font-bold rounded-md"
+            className="bg-red-600 text-white md:text-lg text-sm px-1  py-1 font-bold rounded-md"
             onClick={() => {
               logout();
             }}

@@ -21,6 +21,9 @@ const DetailsCard = ({
   FinalsenderResp,
   FinalreceiverResp,
   Result,
+  SendWag,
+  RecevieWag,
+  WagerStatus
 }) => {
   // CSS classes for different card styles
   const normal =
@@ -90,7 +93,7 @@ const DetailsCard = ({
       {status == "pending" && (
         <div className="flex lg:flex-col  justify-evenly h-full mx-3 ">
           <button
-            className="text-[3rem] lg:mx-0 mx-4 text-green-600 active:scale-105 duration-200 "
+            className="sm:text-[3rem] text-3xl lg:mx-0 mx-4 text-green-600 active:scale-105 duration-200 "
             onClick={() => {
               AcceptBet(Betid, ResolutionDate, senderphone, receiverNumber);
             }}
@@ -98,7 +101,7 @@ const DetailsCard = ({
             <AiOutlineCheckCircle />
           </button>
           <button
-            className="text-[3rem] text-red-600 active:scale-105 duration-200 "
+            className="sm:text-[3rem] text-3xl text-red-600 active:scale-105 duration-200 "
             onClick={() => {
               DeleteBet(Betid);
             }}
@@ -156,6 +159,37 @@ const DetailsCard = ({
         <div className="flex h-full items-center justify-center flex-col mx-3">
           <div className="text-black font-bold text-xl">
             Your response was {Isender ? FinalsenderResp : FinalreceiverResp}
+          </div>
+        </div>
+      )}
+      {(SendWag == "none" || RecevieWag == "none") && (
+        <div className="flex flex-col items-center h-full justify-center">
+          <div className="text-lg font-semibold">
+            Is the Wager of this bet completed?
+          </div>
+          <div className="flex w-full justify-center">
+            {Isender && SendWag == "none" && (
+              <button
+                className="text-3xl active:scale-105 duration-200"
+                onClick={() => {
+                  WagerStatus(Isender, Betid, SendWag, RecevieWag);
+                }}
+              >
+                <AiOutlineCheckCircle />
+              </button>
+            )}
+            {!Isender && RecevieWag == "none" && (
+              <button
+                className="text-3xl active:scale-105 duration-200"
+                onClick={() => {
+                  WagerStatus(Isender, Betid, SendWag, RecevieWag);
+                }}
+              >
+                <AiOutlineCheckCircle />
+              </button>
+            )}
+            {!Isender && RecevieWag == "Yes" && <div>Response Noted</div>}
+            {Isender && SendWag == "Yes" && <div>Response Noted</div>}
           </div>
         </div>
       )}

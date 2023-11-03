@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const {createBet, updateStatus, getBet, setFinalResp, deleteBet,getRequestBet, changetofinal} = require('../task/betFunctions');
+const {createBet, updateStatus, getBet, setFinalResp, deleteBet,getRequestBet, changetofinal, SetWagerResp} = require('../task/betFunctions');
 const {sendMessage, sendResolutionUpdate, sendResult} = require('../task/twilioFunctions');
 
 //api to create a new bet
@@ -31,6 +31,9 @@ router.post("/api/sendresult",sendResult);
 
 //api to set the final response of both individuals/parties depending on an check code passed as params
 router.patch('/api/setfinalresp/:id/:check', setFinalResp);
+
+
+router.patch('/api/setwagerResp/:id/:check', SetWagerResp);
 
 module.exports = router;
 

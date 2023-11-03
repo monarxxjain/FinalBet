@@ -124,6 +124,8 @@ const CreateBet = () => {
       status,
       senderFinalResp,
       receiverFinalResp,
+      senderWager: "none",
+      receiverWager:"none",
     };
 
     try {
