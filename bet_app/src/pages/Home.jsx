@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { NavLink, Outlet, useNavigate } from "react-router-dom";
+import { NavLink, Outlet, useLocation, useNavigate } from "react-router-dom";
 import Nav from "../components/Nav";
-import CardList from "../components/OpenCardList";
 import axios from "axios";
 import List from "../components/List";
 import { GetHistory, GetOpenBets, GetRequests, GetloseBets, getWins } from "../utils/UtilityFunctions";
@@ -9,6 +8,7 @@ import { GetHistory, GetOpenBets, GetRequests, GetloseBets, getWins } from "../u
 const Home = () => {
   const navigate = useNavigate();
   const [username, setUsername] = useState("");
+  const location = useLocation();
 
   // Function to get user information
   const getUser = async () => {
@@ -24,15 +24,18 @@ const Home = () => {
       // Handle the error appropriately (e.g., show an error message to the user)
     }
   };
+  const [BetList, setBetList] = useState([]);
 
   useEffect(() => {
     if (!localStorage.getItem("token")) {
       navigate("/");
     }
     getUser();
+    if(location.pathname==="/home/open"){
+      GetOpenBets(setBetList)
+    }
   }, [navigate]);
 
-  const [BetList, setBetList] = useState([]);
 
   return (
     <div className="w-screen h-screen flex bg-blue-100 flex-col">

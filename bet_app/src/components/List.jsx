@@ -1,6 +1,8 @@
+import { useEffect } from "react";
 import {
   AcceptBet,
   DeleteBet,
+  GetOpenBets,
   SendRespone,
   WagerStatus,
 } from "../utils/UtilityFunctions";
@@ -17,6 +19,7 @@ const List = ({ BetList, setBetList }) => {
       </div>
     );
   }
+
  
   return (
     <div className="w-[96%] pb-4 h-full flex flex-col scroller">
