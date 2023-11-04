@@ -13,9 +13,9 @@ const CreateBet = () => {
   const [criteria, setCriteria] = useState("");
   const [resolDate, setResolDate] = useState("");
   const [wager, setWager] = useState("");
-  const [status, setStatus] = useState("pending");
-  const [senderFinalResp, setSenderFinalResp] = useState("NIL");
-  const [receiverFinalResp, setReceiverFinalResp] = useState("NIL");
+  const status = "pending"
+  const senderFinalResp = "NIL"
+  const receiverFinalResp = "NIL"
   const senderNumber = localStorage.getItem("phone");
   const [error, setError] = useState(false);
   const [dateErr, setDateErr] = useState(false);
@@ -31,11 +31,10 @@ const CreateBet = () => {
 
     // Calculate the time difference in milliseconds
     const timeDifference = givenDate - currentDate;
-    // console.log(timeDifference)
 
     // Convert 20 minutes to milliseconds (1 minute = 60,000 milliseconds)
     const twentyMinutesInMilliseconds = 15 * 60000;
-    // console.log(twentyMinutesInMilliseconds);
+    
     // Compare the time difference with 20 minutes
     if (timeDifference > twentyMinutesInMilliseconds) {
       return true;
@@ -146,18 +145,7 @@ const CreateBet = () => {
       console.error(error.message);
     }
 
-    console.warn(
-      senderName,
-      senderResponse,
-      senderNumber,
-      receiverName,
-      receiverResponse,
-      receiverNumber,
-      criteria,
-      resolDate,
-      wager,
-      status
-    );
+   
   };
 
   useEffect(() => {

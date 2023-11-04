@@ -1,29 +1,28 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import { AiOutlineCheckCircle } from "react-icons/ai";
 import { RxCrossCircled } from "react-icons/rx";
 
 const DetailsCard = ({
-  Betid,
+  betid,
   sender,
   senderResp,
-  senderphone,
+  senderNumber,
   receiver,
   receiverResp,
   receiverNumber,
   description,
-  ResolutionDate,
-  Wager,
+  resolutionDate,
+  wager,
   status,
-  DeleteBet,
-  AcceptBet,
-  SendRespone,
-  FinalsenderResp,
-  FinalreceiverResp,
-  Result,
-  SendWag,
-  RecevieWag,
-  WagerStatus,
+  deleteBet,
+  acceptBet,
+  sendResponse,
+  finalSenderResp,
+  finalReceiverResp,
+  result,
+  senderWager,
+  receiverWager,
+  wagerStatus,
   setBetList
 }) => {
   // CSS classes for different card styles
@@ -38,7 +37,7 @@ const DetailsCard = ({
   const phone = localStorage.getItem("phone");
   const [Isender, setIsender] = useState(false);
   useEffect(() => {
-    if (senderphone == phone) {
+    if (senderNumber == phone) {
       setIsender(true);
     } else {
       setIsender(false);
@@ -49,9 +48,9 @@ const DetailsCard = ({
   return (
     <div
       className={
-        (Result == "none" && normal) ||
-        (Result == "lose" && lose) ||
-        (Result == "win" && win)
+        (result == "none" && normal) ||
+        (result == "lose" && lose) ||
+        (result == "win" && win)
       }
     >
       <div className="flex my-2">
@@ -84,11 +83,11 @@ const DetailsCard = ({
       <div className="flex my-2">
         <span className="flex flex-col mx-3 text-black">
           <span className="text-lg font-semibold">Date Of Resolution</span>
-          <span className="text-lg font-light">{ResolutionDate}</span>
+          <span className="text-lg font-light">{resolutionDate}</span>
         </span>
         <span className="flex flex-col mx-3  text-black">
-          <span className="text-lg font-semibold">Wager</span>
-          <span className="text-lg font-light">{Wager}</span>
+          <span className="text-lg font-semibold">wager</span>
+          <span className="text-lg font-light">{wager}</span>
         </span>
       </div>
       {status == "pending" && (
@@ -96,7 +95,7 @@ const DetailsCard = ({
           <button
             className="sm:text-[3rem] text-3xl lg:mx-0 mx-4 text-green-600 active:scale-105 duration-200 "
             onClick={() => {
-              AcceptBet(Betid, ResolutionDate, senderphone, receiverNumber,setBetList);
+              acceptBet(betid, resolutionDate, senderNumber, receiverNumber,setBetList);
             }}
           >
             <AiOutlineCheckCircle />
@@ -104,30 +103,30 @@ const DetailsCard = ({
           <button
             className="sm:text-[3rem] text-3xl text-red-600 active:scale-105 duration-200 "
             onClick={() => {
-              DeleteBet(Betid,setBetList);
+              deleteBet(betid,setBetList);
             }}
           >
             <RxCrossCircled />
           </button>
         </div>
       )}
-      {((status == "final" && Isender && FinalsenderResp == "NIL") ||
-        (status == "final" && !Isender && FinalreceiverResp == "NIL")) && (
+      {((status == "final" && Isender && finalSenderResp == "NIL") ||
+        (status == "final" && !Isender && finalReceiverResp == "NIL")) && (
         <div className="flex flex-col mx-3">
           <div className="text-black font-semibold text-lg">
-            Was this Bet Result in your Favour?
+            Was this Bet result in your Favour?
           </div>
           <div className="flex justify-around my-3">
             <button
               className="text-xl mx-3 bg-blue-600 text-black font-semibold py-1 px-2 rounded-md active:scale-105 duration-200 "
               onClick={() => {
-                SendRespone(
-                  senderphone,
+                sendResponse(
+                  senderNumber,
                   receiverNumber,
-                  Betid,
+                  betid,
                   "Yes",
-                  FinalsenderResp,
-                  FinalreceiverResp,
+                  finalSenderResp,
+                  finalReceiverResp,
                   sender,
                   receiver,
                   setBetList
@@ -139,13 +138,13 @@ const DetailsCard = ({
             <button
               className="text-xl bg-red-600 text-black font-semibold py-1 px-2 rounded-md active:scale-105 duration-200 "
               onClick={() => {
-                SendRespone(
-                  senderphone,
+                sendResponse(
+                  senderNumber,
                   receiverNumber,
-                  Betid,
+                  betid,
                   "No",
-                  FinalsenderResp,
-                  FinalreceiverResp,
+                  finalSenderResp,
+                  finalReceiverResp,
                   sender,
                   receiver,
                   setBetList
@@ -157,42 +156,42 @@ const DetailsCard = ({
           </div>
         </div>
       )}
-      {((status == "final" && Isender && FinalsenderResp != "NIL") ||
-        (status == "final" && !Isender && FinalreceiverResp != "NIL")) && (
+      {((status == "final" && Isender && finalSenderResp != "NIL") ||
+        (status == "final" && !Isender && finalReceiverResp != "NIL")) && (
         <div className="flex h-full items-center justify-center flex-col mx-3">
           <div className="text-black font-bold text-xl">
-            Your response was {Isender ? FinalsenderResp : FinalreceiverResp}
+            Your response was {Isender ? finalSenderResp : finalReceiverResp}
           </div>
         </div>
       )}
-      {((SendWag == "none" || RecevieWag == "none")&&status=="close") && (
+      {((senderWager == "none" || receiverWager == "none")&&status=="close") && (
         <div className="flex flex-col items-center h-full justify-center">
           <div className="text-lg font-semibold">
-            Is the Wager of this bet completed?
+            Is the wager of this bet completed?
           </div>
           <div className="flex w-full justify-center">
-            {Isender && SendWag == "none" && (
+            {Isender && senderWager == "none" && (
               <button
                 className="text-3xl active:scale-105 duration-200"
                 onClick={() => {
-                  WagerStatus(Isender, Betid, SendWag, RecevieWag,setBetList);
+                  wagerStatus(Isender, betid, senderWager, receiverWager,setBetList);
                 }}
               >
                 <AiOutlineCheckCircle />
               </button>
             )}
-            {!Isender && RecevieWag == "none" && (
+            {!Isender && receiverWager == "none" && (
               <button
                 className="text-3xl active:scale-105 duration-200"
                 onClick={() => {
-                  WagerStatus(Isender, Betid, SendWag, RecevieWag,setBetList);
+                  wagerStatus(Isender, betid, senderWager, receiverWager,setBetList);
                 }}
               >
                 <AiOutlineCheckCircle />
               </button>
             )}
-            {!Isender && RecevieWag == "Yes" && <div>Response Noted</div>}
-            {Isender && SendWag == "Yes" && <div>Response Noted</div>}
+            {!Isender && receiverWager == "Yes" && <div>Response Noted</div>}
+            {Isender && senderWager == "Yes" && <div>Response Noted</div>}
           </div>
         </div>
       )}

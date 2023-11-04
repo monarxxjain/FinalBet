@@ -5,19 +5,17 @@ import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 
 const SiginUp = () => {
-  const [NameErr, setNameErr] = useState(false);
+  const [nameErr, setNameErr] = useState(false);
   const [phoneEmp, setphoneEmp] = useState(false);
-  const [phoneErr, setphoneErr] = useState(false);
-  const [PassEmp, setPassEmp] = useState(false);
-  const [PassErr, setPassErr] = useState(false);
+  const [passEmp, setPassEmp] = useState(false);
+  const [passErr, setPassErr] = useState(false);
   const [phone, setPhone] = useState("");
   const name = useRef();
   const pass = useRef();
   const navigate = useNavigate();
 
-  // Function to validate a phone number format
-
-  const handlenumberChange = (value, data) => {
+  
+  const handleNumberChange = (value, data) => {
     setPhone(value);
   };
 
@@ -102,7 +100,7 @@ const SiginUp = () => {
             className="border border-gray-300 sm:w-72 w-64 h-10 rounded-lg outline-none px-2 py-2 font-medium "
             ref={name}
           />
-          {NameErr && (
+          {nameErr && (
             <small className="text-red-600 text-[1rem] ">
               Please enter the name
             </small>
@@ -119,18 +117,14 @@ const SiginUp = () => {
               required: true,
             }}
             value={phone}
-            onChange={handlenumberChange}
+            onChange={handleNumberChange}
           />
           {phoneEmp && (
             <small className="text-red-600 text-[1rem] ">
               Please enter the phone
             </small>
           )}
-          {phoneErr && (
-            <small className="text-red-600 text-[1rem] ">
-              Invalid phone number.
-            </small>
-          )}
+     
         </div>
         <div className="flex flex-col my-2">
           <span className="text-slate-900 font-medium my-2 text-xl mb-3">
@@ -141,12 +135,12 @@ const SiginUp = () => {
             className="sm:w-72 w-64 h-10 rounded-lg outline-none px-2 py-2 font-medium"
             ref={pass}
           />
-          {PassEmp && (
+          {passEmp && (
             <small className="text-red-600 text-[1rem] ">
               Please enter the password
             </small>
           )}
-          {PassErr && (
+          {passErr && (
             <small className="text-red-600 text-[1rem] ">
               Password must have at least 6 characters
             </small>

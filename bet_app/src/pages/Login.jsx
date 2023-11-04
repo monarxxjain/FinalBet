@@ -5,17 +5,18 @@ import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 
 const Login = () => {
-  const [PhoneEmp, setPhoneEmp] = useState(false);
-  const [PhoneErr, setPhoneErr] = useState(false);
-  const [PassEmp, setPassEmp] = useState(false);
-  const [PassErr, setPassErr] = useState(false);
+  const [phoneEmp, setPhoneEmp] = useState(false);
+  const [phoneErr, setPhoneErr] = useState(false);
+  const [passEmp, setPassEmp] = useState(false);
+  const [passErr, setPassErr] = useState(false);
   const [phone, setPhone] = useState("");
-  const handlenumberChange = (value, data) => {
-
-    setPhone(value);
-  }
   const pass = useRef();
   const navigate = useNavigate();
+
+  const handlenumberChange = (value) => {
+    setPhone(value);
+  }
+
  
   // Function to navigate to the registration page
   const sign = () => {
@@ -31,15 +32,15 @@ const Login = () => {
   const handleRegister = async (e) => {
 
     const Pass = pass.current.value;
-    let b = 0,
-      c = 0;
+    let isPhoneErr = 0,
+    isPasswordErr = 0;
 
     if (!phone) {
       setPhoneEmp(true);
     } else {
       setPhoneEmp(false);
       if (validatePhone(phone)) {
-        b = 1;
+        isPhoneErr = 1;
         setPhoneErr(false);
       } else {
         setPhoneErr(true);
@@ -54,17 +55,19 @@ const Login = () => {
         setPassErr(true);
       } else {
         setPassErr(false);
-        c = 1;
+        isPasswordErr = 1;
       }
     }
 
-    if (b + c === 2) {
+    if (isPhoneErr + isPasswordErr === 2) {
       try {
-        
-        const data = await axios.post(`${import.meta.env.VITE_REACT_APP_BACKEND_URL}/login`, {
-          phone: phone,
-          password: Pass,
-        });
+        const data = await axios.post(
+          `${import.meta.env.VITE_REACT_APP_BACKEND_URL}/login`,
+          {
+            phone: phone,
+            password: Pass,
+          }
+        );
 
         if (data) {
           const { auth, user } = data.data;
@@ -102,12 +105,12 @@ const Login = () => {
             value={phone}
             onChange={handlenumberChange}
           />
-          {PhoneEmp && (
+          {phoneEmp && (
             <small className="text-red-600 text-[1rem] ">
               Please enter the phone
             </small>
           )}
-          {PhoneErr && (
+          {phoneErr && (
             <small className="text-red-600 text-[1rem] ">Invalid phone</small>
           )}
         </div>
@@ -120,12 +123,12 @@ const Login = () => {
             className="sm:w-72 w-64 h-10 rounded-lg outline-none px-2 py-2 font-medium"
             ref={pass}
           />
-          {PassEmp && (
+          {passEmp && (
             <small className="text-red-600 text-[1rem] ">
               Please enter the password
             </small>
           )}
-          {PassErr && (
+          {passErr && (
             <small className="text-red-600 text-[1rem] ">
               Password must have at least 6 characters
             </small>
