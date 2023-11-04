@@ -12,7 +12,7 @@ const Home = () => {
   const getUser = async () => {
     try {
       const user = await axios.get(
-        `http://localhost:5200/user/${localStorage.getItem("user")}`
+        `${process.env.REACT_APP_BACKEND_URL}/user/${localStorage.getItem("user")}`
       );
       setUsername(user.data.name);
     } catch (error) {

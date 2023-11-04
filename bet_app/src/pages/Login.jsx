@@ -60,7 +60,7 @@ const Login = () => {
 
     if (b + c === 2) {
       try {
-        const data = await axios.post("http://localhost:5200/login", {
+        const data = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/login`, {
           phone: phone,
           password: Pass,
         });

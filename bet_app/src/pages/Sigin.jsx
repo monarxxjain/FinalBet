@@ -64,7 +64,7 @@ const SiginUp = () => {
 
     if (a + b + c === 3) {
       try {
-        const data = await axios.post("http://localhost:5200/register", {
+        const data = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/register`, {
           name: Name,
           phone: Phone,
           password: Pass,

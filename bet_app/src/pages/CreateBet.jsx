@@ -46,7 +46,7 @@ const CreateBet = () => {
   const getUser = async () => {
     try {
       let user = await axios.get(
-        `http://localhost:5200/user/${localStorage.getItem("user")}`
+        `${process.env.REACT_APP_BACKEND_URL}/user/${localStorage.getItem("user")}`
       );
       user = user.data;
       setUsername(user.name);
@@ -59,7 +59,7 @@ const CreateBet = () => {
   const sendResp = async () => {
     try {
 
-      const response = await axios.post(`http://localhost:5200/api/sendmessage`,
+      const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/sendmessage`,
         {
           number: receiverNumber,
           receName: receiverName,
@@ -130,7 +130,7 @@ const CreateBet = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:5200/api/createbet",
+        "${process.env.REACT_APP_BACKEND_URL}/api/createbet",
         betData
       );
       if (response.data.error) {
