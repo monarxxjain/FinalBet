@@ -3,6 +3,7 @@ import React, { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
+
 const Login = () => {
   const [PhoneEmp, setPhoneEmp] = useState(false);
   const [PhoneErr, setPhoneErr] = useState(false);
@@ -12,11 +13,10 @@ const Login = () => {
   const handlenumberChange = (value, data) => {
 
     setPhone(value);
-  };
-
+  }
   const pass = useRef();
   const navigate = useNavigate();
-
+ 
   // Function to navigate to the registration page
   const sign = () => {
     navigate("/");
@@ -60,7 +60,8 @@ const Login = () => {
 
     if (b + c === 2) {
       try {
-        const data = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/login`, {
+        
+        const data = await axios.post(`${import.meta.env.VITE_REACT_APP_BACKEND_URL}/login`, {
           phone: phone,
           password: Pass,
         });

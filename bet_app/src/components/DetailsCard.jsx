@@ -23,7 +23,8 @@ const DetailsCard = ({
   Result,
   SendWag,
   RecevieWag,
-  WagerStatus
+  WagerStatus,
+  setBetList
 }) => {
   // CSS classes for different card styles
   const normal =
@@ -95,7 +96,7 @@ const DetailsCard = ({
           <button
             className="sm:text-[3rem] text-3xl lg:mx-0 mx-4 text-green-600 active:scale-105 duration-200 "
             onClick={() => {
-              AcceptBet(Betid, ResolutionDate, senderphone, receiverNumber);
+              AcceptBet(Betid, ResolutionDate, senderphone, receiverNumber,setBetList);
             }}
           >
             <AiOutlineCheckCircle />
@@ -103,7 +104,7 @@ const DetailsCard = ({
           <button
             className="sm:text-[3rem] text-3xl text-red-600 active:scale-105 duration-200 "
             onClick={() => {
-              DeleteBet(Betid);
+              DeleteBet(Betid,setBetList);
             }}
           >
             <RxCrossCircled />
@@ -128,7 +129,8 @@ const DetailsCard = ({
                   FinalsenderResp,
                   FinalreceiverResp,
                   sender,
-                  receiver
+                  receiver,
+                  setBetList
                 );
               }}
             >
@@ -145,7 +147,8 @@ const DetailsCard = ({
                   FinalsenderResp,
                   FinalreceiverResp,
                   sender,
-                  receiver
+                  receiver,
+                  setBetList
                 );
               }}
             >
@@ -162,7 +165,7 @@ const DetailsCard = ({
           </div>
         </div>
       )}
-      {(SendWag == "none" || RecevieWag == "none") && (
+      {((SendWag == "none" || RecevieWag == "none")&&status=="close") && (
         <div className="flex flex-col items-center h-full justify-center">
           <div className="text-lg font-semibold">
             Is the Wager of this bet completed?
@@ -172,7 +175,7 @@ const DetailsCard = ({
               <button
                 className="text-3xl active:scale-105 duration-200"
                 onClick={() => {
-                  WagerStatus(Isender, Betid, SendWag, RecevieWag);
+                  WagerStatus(Isender, Betid, SendWag, RecevieWag,setBetList);
                 }}
               >
                 <AiOutlineCheckCircle />
@@ -182,7 +185,7 @@ const DetailsCard = ({
               <button
                 className="text-3xl active:scale-105 duration-200"
                 onClick={() => {
-                  WagerStatus(Isender, Betid, SendWag, RecevieWag);
+                  WagerStatus(Isender, Betid, SendWag, RecevieWag,setBetList);
                 }}
               >
                 <AiOutlineCheckCircle />

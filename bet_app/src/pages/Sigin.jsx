@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
+
 const SiginUp = () => {
   const [NameErr, setNameErr] = useState(false);
   const [phoneEmp, setphoneEmp] = useState(false);
@@ -17,7 +18,6 @@ const SiginUp = () => {
   // Function to validate a phone number format
 
   const handlenumberChange = (value, data) => {
-
     setPhone(value);
   };
 
@@ -29,7 +29,7 @@ const SiginUp = () => {
   // Function to handle user registration
   const handleRegister = async (e) => {
     const Name = name.current.value;
-    const Phone = phone
+    const Phone = phone;
     const Pass = pass.current.value;
     let a = 0,
       b = 0,
@@ -44,9 +44,7 @@ const SiginUp = () => {
 
     if (!Phone) {
       setphoneEmp(true);
-
-    }
-    else {
+    } else {
       b = 1;
     }
 
@@ -64,11 +62,14 @@ const SiginUp = () => {
 
     if (a + b + c === 3) {
       try {
-        const data = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/register`, {
-          name: Name,
-          phone: Phone,
-          password: Pass,
-        });
+        const data = await axios.post(
+          `${import.meta.env.VITE_REACT_APP_BACKEND_URL}/register`,
+          {
+            name: Name,
+            phone: Phone,
+            password: Pass,
+          }
+        );
 
         if (data) {
           const { auth, user } = data.data;

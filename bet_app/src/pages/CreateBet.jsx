@@ -4,6 +4,7 @@ import Nav from "../components/Nav";
 import { useNavigate } from "react-router-dom";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
+
 const CreateBet = () => {
   const [senderName, setSenderName] = useState("");
   const [senderResponse, setSenderResponse] = useState("");
@@ -20,7 +21,6 @@ const CreateBet = () => {
   const [dateErr, setDateErr] = useState(false);
   const [username, setUsername] = useState("");
   const navigate = useNavigate();
-
 
   function isDate20MinutesGreater(inputDate) {
     // Parse the input date in ISO format
@@ -46,20 +46,18 @@ const CreateBet = () => {
   const getUser = async () => {
     try {
       let user = await axios.get(
-        `${process.env.REACT_APP_BACKEND_URL}/user/${localStorage.getItem("user")}`
+        `${
+          import.meta.env.VITE_REACT_APP_BACKEND_URL
+        }/user/${localStorage.getItem("user")}`
       );
       user = user.data;
       setUsername(user.name);
-
-    }
-    catch (e) {
-
-    }
-  }
+    } catch (e) {}
+  };
   const sendResp = async () => {
     try {
-
-      const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/sendmessage`,
+      const response = await axios.post(
+        `${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/sendmessage`,
         {
           number: receiverNumber,
           receName: receiverName,
@@ -75,16 +73,15 @@ const CreateBet = () => {
 
   const handlenumberChange = (value, data) => {
     setReceiverNumber(value);
-  }
+  };
 
   // Function to initiate a bet
   const initiateBet = async () => {
-
-    let receiverResponse = 'Yes'
-    if (senderResponse == 'Yes') {
-      receiverResponse = 'No'
+    let receiverResponse = "Yes";
+    if (senderResponse == "Yes") {
+      receiverResponse = "No";
     } else {
-      receiverResponse = 'Yes'
+      receiverResponse = "Yes";
     }
 
     if (
@@ -107,9 +104,9 @@ const CreateBet = () => {
     }
 
     if (!isDate20MinutesGreater(resolDate)) {
-      console.log("false")
+      console.log("false");
       setDateErr(true);
-      return
+      return;
     }
     const betData = {
       senderName,
@@ -125,12 +122,12 @@ const CreateBet = () => {
       senderFinalResp,
       receiverFinalResp,
       senderWager: "none",
-      receiverWager:"none",
+      receiverWager: "none",
     };
 
     try {
       const response = await axios.post(
-        "${process.env.REACT_APP_BACKEND_URL}/api/createbet",
+        "${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/createbet",
         betData
       );
       if (response.data.error) {
@@ -146,7 +143,6 @@ const CreateBet = () => {
         console.error("Error creating bet", response.status, response.data);
       }
     } catch (error) {
-
       console.error(error.message);
     }
 
@@ -162,9 +158,6 @@ const CreateBet = () => {
       wager,
       status
     );
-
-
-
   };
 
   useEffect(() => {
@@ -173,7 +166,6 @@ const CreateBet = () => {
     }
     getUser();
   }, []);
-
 
   return (
     <div className="w-screen h-full flex justify-center bg-blue-100 flex-col items-center">
@@ -326,7 +318,10 @@ const CreateBet = () => {
             <span className="text-red-500 text-left">Enter a valid date</span>
           )}
           {dateErr && (
-            <span className="text-red-500 text-left">Enter a date 20 mins greater than current date and less than 7 days</span>
+            <span className="text-red-500 text-left">
+              Enter a date 20 mins greater than current date and less than 7
+              days
+            </span>
           )}
         </div>
 

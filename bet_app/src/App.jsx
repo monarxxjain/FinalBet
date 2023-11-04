@@ -9,6 +9,7 @@ import ReqestBetList from './components/ReqestBetList'
 import WinList from './components/WinList'
 import LoseList from './components/LoseList'
 import History from './components/History'
+import List from './components/List'
 
 function App() {
  
@@ -22,7 +23,7 @@ function App() {
             <Route path='/login' Component={Login}></Route>
             <Route path='/createBet' Component={CreateBet}></Route>
             <Route path='/home' Component={Home}>
-              <Route path='/home/open' Component={CardList}></Route>
+              <Route path='/home/open' Component={List}></Route>
               <Route path='/home/request' Component={ReqestBetList}></Route>
               <Route path='/home/wins' Component={WinList}></Route>
               <Route path='/home/lose' Component={LoseList}></Route>
