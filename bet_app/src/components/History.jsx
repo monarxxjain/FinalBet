@@ -1,45 +1,51 @@
 import DetailsCard from "./DetailsCard";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { GetHistory, WagerStatus } from "../utils/UtilityFunctions";
 
 const History = () => {
   const [BetList, setBetList] = useState([]);
   const num = localStorage.getItem("phone");
 
   // Function to fetch bet history
-  const GetHistory = async () => {
-    try {
-      let list = await axios.get(
-        `${process.env.REACT_APP_BACKEND_URL}/api/getbet/${num}/close`
-      );
-      setBetList(list.data);
-    } catch (error) {
-      console.error("An error occurred while fetching bet history:", error);
-    }
-  };
-  const WagerStatus = async (isSender, betId, senderWager, receiverWager) => {
-    if (isSender) {
-      let result = await axios.patch(
-        `http://localhost:5200/api/setwagerResp/${betId}/1`
-      );
-      if (result) {
-        GetHistory();
-      }
-    } else {
-      let result = await axios.patch(
-        `http://localhost:5200/api/setwagerResp/${betId}/0`
-      );
-      if (result) {
-        GetHistory();
-      }
-    }
+  // const GetHistory = async () => {
+  //   try {
+  //     let list = await axios.get(
+  //       `${process.env.REACT_APP_BACKEND_URL}/api/getbet/${num}/close`
+  //     );
+  //     setBetList(list.data);
+  //   } catch (error) {
+  //     console.error("An error occurred while fetching bet history:", error);
+  //   }
+  // };
 
-    alert("response noted")
-  };
+  // //Function to set the Wager Status
+  // const WagerStatus = async (isSender, betId, senderWager, receiverWager) => {
+  //   if (isSender) {
+  //     let result = await axios.patch(
+  //       `${process.env.REACT_APP_BACKEND_URL}/api/setwagerResp/${betId}/1`
+  //     );
+  //     if (result) {
+  //       GetHistory();
+  //     }
+  //   } else {
+  //     let result = await axios.patch(
+  //       `${process.env.REACT_APP_BACKEND_URL}/api/setwagerResp/${betId}/0`
+  //     );
+  //     if (result) {
+  //       GetHistory();
+  //     }
+  //   }
 
-  useEffect(() => {
-    GetHistory();
-  }, []);
+  //   alert("response noted")
+  // };
+
+  // useEffect(() => {
+  //   GetHistory();
+  // }, []);
+
+
+  GetHistory();
 
   if (BetList.length == 0) {
     return (
@@ -64,7 +70,7 @@ const History = () => {
           receiverNumber,
           senderFinalResp,
           receiverFinalResp,
-          senderWager,
+          senderWager,git add
           receiverWager,
         } = bet;
 

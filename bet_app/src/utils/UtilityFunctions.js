@@ -1,19 +1,19 @@
 import axios from "axios";
 
 // Function to fetch bet history
-export const GetHistory = async () => {
+export const GetHistory = async (setBetList) => {
     try {
         let list = await axios.get(
             `${process.env.REACT_APP_BACKEND_URL}/api/getbet/${num}/close`
         );
-        return(list.data);
+        setBetList(list.data);
     } catch (error) {
         console.error("An error occurred while fetching bet history:", error);
     }
 };
 
 // Function to fetch lose bets
-export const GetloseBets = async () => {
+export const GetloseBets = async (setBetList) => {
     try {
         let list = await axios.get(
             `${process.env.REACT_APP_BACKEND_URL}/api/getbet/${num}/close`
@@ -32,7 +32,7 @@ export const GetloseBets = async () => {
                 final_list.push(list[i]);
             }
         }
-        return(final_list);
+        setBetList(final_list);
     } catch (error) {
         console.error("An error occurred while fetching lose bets:", error);
     }
@@ -40,7 +40,7 @@ export const GetloseBets = async () => {
 
 
 // Function to fetch open bets
-export const GetOpenBets = async () => {
+export const GetOpenBets = async (setBetList) => {
     try {
         let list1 = await axios.get(
             `${process.env.REACT_APP_BACKEND_URL}/api/getbet/${num}/open`
@@ -61,15 +61,14 @@ export const GetOpenBets = async () => {
 
         list2 = list2.data;
         list2 = [...list2, ...list1];
-        
-        
+
+        setBetList(list2);
+
         if (ids.length > 0) {
             await axios.patch(`${process.env.REACT_APP_BACKEND_URL}/api/updatefinal`, {
                 ids: [...ids],
             });
         }
-        
-        return(list2);
     } catch (error) {
         console.error("An error occurred while fetching open bets:", error);
     }
@@ -200,13 +199,13 @@ export const SendRespone = async (
 
 
 // Function to fetch pending bet requests
-export const GetRequests = async () => {
+export const GetRequests = async (setBetList) => {
     try {
         let list = await axios.get(
             `${process.env.REACT_APP_BACKEND_URL}/api/getrequest/${num}/pending`
         );
         list = list.data;
-        return(list);
+        setBetList(list);
     } catch (error) {
         console.error("An error occurred while fetching pending bets:", error);
     }
@@ -261,7 +260,7 @@ export const AcceptBet = async (id, resolDate, senderNumber, receiverNumber) => 
 
 
 // Function to fetch closed bets with wins
-export const getWins = async () => {
+export const getWins = async (setBetList) => {
     try {
         let list = await axios.get(
             `${process.env.REACT_APP_BACKEND_URL}/api/getbet/${num}/close`
@@ -284,8 +283,29 @@ export const getWins = async () => {
             }
         }
 
-        return(finalList);
+        setBetList(finalList);
     } catch (error) {
         console.error("An error occurred while fetching bets:", error);
     }
+};
+
+//Function to set the Wager Status
+export const WagerStatus = async (isSender, betId, senderWager, receiverWager) => {
+    if (isSender) {
+        let result = await axios.patch(
+            `${process.env.REACT_APP_BACKEND_URL}/api/setwagerResp/${betId}/1`
+        );
+        if (result) {
+            GetHistory();
+        }
+    } else {
+        let result = await axios.patch(
+            `${process.env.REACT_APP_BACKEND_URL}/api/setwagerResp/${betId}/0`
+        );
+        if (result) {
+            GetHistory();
+        }
+    }
+
+    alert("response noted")
 };
