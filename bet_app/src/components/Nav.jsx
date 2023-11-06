@@ -2,15 +2,16 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 
 const Nav = ({ username }) => {
-  const navigate=useNavigate();
-  const logout=()=>{
+  const navigate = useNavigate();
+  const logout = () => {
     localStorage.removeItem("token");
-    localStorage.removeItem("user")
+    localStorage.removeItem("user");
+    localStorage.removeItem("phone");
     navigate("/");
-  }
-  const CreateBet=()=>{
+  };
+  const CreateBet = () => {
     navigate("/createBet");
-  }
+  };
   return (
     <div className=" w-full py-4  text-black flex flex-col px-3">
       <div className="flex w-full justify-between md:px-6 items-center">

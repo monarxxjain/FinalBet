@@ -9,6 +9,10 @@ const Home = () => {
   const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const location = useLocation();
+   const token = localStorage.getItem("token");
+   const headers = {
+     headers: { authorization: token },
+   };
 
   // Function to get user information
   const getUser = async () => {
@@ -16,7 +20,7 @@ const Home = () => {
       const user = await axios.get(
         `${
           import.meta.env.VITE_REACT_APP_BACKEND_URL
-        }/user/${localStorage.getItem("user")}`
+        }/user/${localStorage.getItem("user")}`,headers 
       );
       setUsername(user.data.name);
     } catch (error) {

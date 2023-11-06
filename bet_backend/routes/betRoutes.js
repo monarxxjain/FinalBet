@@ -2,38 +2,39 @@ const express = require("express");
 const router = express.Router();
 const {createBet, updateStatus, getBet, setFinalResp, deleteBet,getRequestBet, changetofinal, SetWagerResp} = require('../task/betFunctions');
 const {sendMessage, sendResolutionUpdate, sendResult} = require('../task/twilioFunctions');
+const { Verifytoken } = require("../middlerware");
 
 //api to create a new bet
-router.post('/api/createbet', createBet);
+router.post('/api/createbet',Verifytoken, createBet);
 
 //api to get all the bets
-router.get('/api/getbet/:num/:status', getBet);
+router.get('/api/getbet/:num/:status', Verifytoken, getBet);
 
-router.get('/api/getrequest/:num/:status', getRequestBet);
+router.get('/api/getrequest/:num/:status', Verifytoken, getRequestBet);
 
 //api to delete a specific bet
-router.delete('/api/deletebet/:id', deleteBet);
+router.delete('/api/deletebet/:id', Verifytoken, deleteBet);
 
 //api to change the status to final
-router.patch("/api/updatefinal",changetofinal);
+router.patch("/api/updatefinal", Verifytoken,changetofinal);
 
 //api to update the status of bet
-router.patch('/api/updatestatus/:id', updateStatus);
+router.patch('/api/updatestatus/:id', Verifytoken, updateStatus);
 
 //api to getmessage response using twilio
-router.post('/api/sendmessage', sendMessage);
+router.post('/api/sendmessage', Verifytoken, sendMessage);
 
 //api to send scheduled message at resolution date using twilio
-router.post('/api/sendresolupdate/:id', sendResolutionUpdate);
+router.post('/api/sendresolupdate/:id', Verifytoken, sendResolutionUpdate);
 
 //api to send final message of win and loss
-router.post("/api/sendresult",sendResult);
+router.post("/api/sendresult", Verifytoken,sendResult);
 
 //api to set the final response of both individuals/parties depending on an check code passed as params
-router.patch('/api/setfinalresp/:id/:check', setFinalResp);
+router.patch('/api/setfinalresp/:id/:check', Verifytoken, setFinalResp);
 
 
-router.patch('/api/setwagerResp/:id/:check', SetWagerResp);
+router.patch('/api/setwagerResp/:id/:check', Verifytoken, SetWagerResp);
 
 module.exports = router;
 

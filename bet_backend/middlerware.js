@@ -1,10 +1,10 @@
+require('dotenv').config();
 const jwt = require("jsonwebtoken");
-const jwt_key = "bets";
+const JWT_KEY = process.env.JWT_KEY;
 const Verifytoken = (req, resp, next) => {
     let tok = req.headers['authorization'];
     if (tok) {
-        // tok=tok.split(' ')[1];
-        jwt.verify(tok, jwt_key, (err, valid) => {
+        jwt.verify(tok,JWT_KEY, (err, valid) => {
             if (err) {
                 resp.send("Please add token valid");
             }
